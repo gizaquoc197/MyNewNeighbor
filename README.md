@@ -8,6 +8,10 @@ My New Neighbor is a mobile app that helps people—especially older immigrants�
 
 ```
 MyNewNeighbor/
+├─ docker-compose.yml/
+├─ migrations/
+  └─ 001_init.sql
+└─ seed.sql
 ├─ frontend/ # Expo React Native app
 ├─ backend/ # Node/Express API
 ├─ README.md # Project documentation
@@ -31,6 +35,8 @@ Install the following before starting:
   npx -v
 - **Git**
 - **Expo Go** 
+- **Docker Desktop**
+  Download from https://www.docker.com/products/docker-desktop/
 
 ---
 
@@ -97,6 +103,73 @@ EXPO_PUBLIC_API_BASE_URL=http://127.0.0.1:4000
 ```bash
 npx expo start -c
 ```
+---
+
+## Database Setup
+### 1. Start Postgres (Docker)
+From the project root:
+```bash
+docker compose up -d
+```
+Verify
+```bash
+docker compose ps
+```
+You should see:
+- mynewneighbor_db
+- Status: Up (healthy)
+
+## 2. Database Connection String
+
+From host machine (Node backend):
+```bash
+postgres://app:app_pw@localhost:5432/mynewneighbor
+```
+From another Docker container:
+```bash
+postgres://app:app_pw@db:5432/mynewneighbor
+```
+---
+
+## Schema Migration
+Run intial migration
+```bash
+docker exec -i mynewneighbor_db psql -U app -d mynewneighbor < migrations/001_init.sql
+```
+This creates all Week 1 tables, including:
+- users
+- organizations
+- events
+- activities
+- conversations
+- messages
+- relationship tables
+
+Design notes:
+- Connections are unordered
+- Blocks are directional
+- Conversations
+  - may reference event_id, activity_id, or neither
+  - enforced via CHECK constraint
+
+---
+
+## Seed Data (Demo)
+Run seed script
+```bash
+docker exec -i mynewneighbor_db psql -U app -d mynewneighbor < seed.sql
+```
+Seed contents
+- 3 organizations
+- 4 events
+- 3 activities
+- Users, followers, RSVPs, activity requests
+- Sample conversations and messages
+
+Re-run safety
+- Seed script uses TRUNCATE + INSERT
+- Safe to re-run in development
+- Do not run in production
 
 ---
 
