@@ -14,8 +14,8 @@ export default function App() {
     }
 
     fetch(`${baseUrl}/health`)
-      .then(res => res.json())
-      .then(data => setStatus(JSON.stringify(data)))
+      .then((res) => res.json())
+      .then((data) => setStatus(JSON.stringify(data)))
       .catch(() => setStatus("API not reachable"));
   }, []);
 

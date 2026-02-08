@@ -81,6 +81,7 @@ If everything is configured correctly, the app will display:
 Backend status:
 {"ok":true}
 ```
+---
 
 ## Environment Variables
 ### Backend (`backend/.env`)
@@ -96,3 +97,10 @@ EXPO_PUBLIC_API_BASE_URL=http://127.0.0.1:4000
 ```bash
 npx expo start -c
 ```
+
+---
+
+## Git Notes
+- Run `npm run format` before committing code.
+- node_modules and .env files are intentionally ignored
+- Each developer should create their own .env from .env.example
