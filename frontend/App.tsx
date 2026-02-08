@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
+import { auth } from "./src/firebase"; 
 
 export default function App() {
   const [status, setStatus] = useState<string>("checking backend...");
@@ -37,3 +38,4 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+

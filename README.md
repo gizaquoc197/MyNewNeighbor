@@ -119,7 +119,7 @@ You should see:
 - mynewneighbor_db
 - Status: Up (healthy)
 
-## 2. Database Connection String
+### 2. Database Connection String
 
 From host machine (Node backend):
 ```bash
@@ -174,6 +174,26 @@ Re-run safety
 ---
 
 ## Git Notes
-- Run `npm run format` before committing code.
+### General Notes
+- Run `npm run format` before committing code (for formatting uniform)
+- Run `docker compose up -d` when you start your coding session
+- Run `docker exec -i mynewneighbor_db psql -U app -d mynewneighbor < migrations/00X_some_change.sql` when you change database schema
+- Run `docker exec -i mynewneighbor_db psql -U app -d mynewneighbor < seed.sql` when you want fresh demo data
 - node_modules and .env files are intentionally ignored
 - Each developer should create their own .env from .env.example
+### EPIC A checkpoint
+```bash
+git clone <repo>
+cd MyNewNeighbor/backend && cp .env.example .env && npm i && npm run dev
+cd ../frontend && cp .env.example .env && npm i && npx expo start`
+```
+
+If you can run both -> pass
+### EPIC B checkpoint
+
+```bash
+git clone <repo>
+docker compose up -d
+docker exec -i mynewneighbor_db psql -U app -d mynewneighbor < migrations/001_init.sql
+docker exec -i mynewneighbor_db psql -U app -d mynewneighbor < seed.sql
+```
